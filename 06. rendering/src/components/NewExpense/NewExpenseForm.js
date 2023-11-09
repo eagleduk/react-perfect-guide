@@ -13,13 +13,13 @@ export default function NewExpenseForm(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
     props.onAddExpense((current) => [
+      ...current,
       {
         title,
         amount,
         date: new Date(date),
         id: Math.random().toString(),
       },
-      ...current,
     ]);
     setTitle("");
     setAmount("");
