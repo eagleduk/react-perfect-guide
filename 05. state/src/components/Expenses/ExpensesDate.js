@@ -1,4 +1,4 @@
-import "./ExpenseDate.css";
+import "./ExpensesDate.css";
 
 export default function ExpenseDate({ date }) {
   const month = date.toLocaleString("en-US", { month: "long" });
