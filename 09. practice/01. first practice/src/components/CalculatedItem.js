@@ -12,10 +12,10 @@ export default function CalculatedItem({
   return (
     <tr>
       <td>{year}</td>
-      <td>{`$${numberFormat(savingsEndOfYear)}`}</td>
-      <td>{`$${numberFormat(yearlyInterest)}`}</td>
-      <td>{`$${numberFormat(totalInterest)}`}</td>
-      <td>{`$${numberFormat(savingsEndOfYear - totalInterest)}`}</td>
+      <td>{`${numberFormat(savingsEndOfYear)}`}</td>
+      <td>{`${numberFormat(yearlyInterest)}`}</td>
+      <td>{`${numberFormat(totalInterest)}`}</td>
+      <td>{`${numberFormat(savingsEndOfYear - totalInterest)}`}</td>
     </tr>
   );
 }

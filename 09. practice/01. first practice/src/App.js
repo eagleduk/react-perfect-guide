@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import style from "./index.module.css";
+import style from "./App.module.css";
 
 import logo from "./assets/investment-calculator-logo.png";
 import CalculateForm from "./components/CalculateForm";
@@ -15,10 +15,11 @@ function App() {
         <img src={logo} alt="logo" />
         <h1>Investment Calculator</h1>
       </header>
-
       <CalculateForm onYearDataChange={setYearlyData} />
-
-      <CalculatedList yearlyData={yearlyData} />
+      {yearlyData.length === 0 && (
+        <p style={{ textAlign: "center" }}>Not Yet.</p>
+      )}
+      {yearlyData.length > 0 && <CalculatedList yearlyData={yearlyData} />}
     </div>
   );
 }

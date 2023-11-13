@@ -40,10 +40,10 @@ export default function CalculateForm(props) {
 
   const handleResetEvent = (event) => {
     props.onYearDataChange([]);
-    setCurrent("");
-    setYearly("");
-    setExpected("");
-    setDuration("");
+    setCurrent("10000");
+    setYearly("1200");
+    setExpected("5");
+    setDuration("15");
   };
 
   return (
