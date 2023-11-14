@@ -4,14 +4,20 @@ import Card from "./ui/Card";
 
 export default function ErrorModal(props) {
   return (
-    <div className={styles.backdrop}>
+    <div>
+      <div
+        className={styles.backdrop}
+        onClick={() => props.onModalDisplay(false)}
+      />
       <Card className={styles.modal}>
         <div className={styles.header}>
           <h2>Invalid input</h2>
         </div>
         <div className={styles.content}>{props.errorMessage}</div>
         <div className={styles.actions}>
-          <Button handleClickEvent={props.onModalDisplay}>Okay</Button>
+          <Button type="button" handleClickEvent={props.onModalDisplay}>
+            Okay
+          </Button>
         </div>
       </Card>
     </div>

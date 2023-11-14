@@ -24,7 +24,7 @@ export default function AddUser(props) {
   const handleFormSubmit = (event) => {
     event.preventDefault();
 
-    if (user.name.length === 0 || user.age.length === 0) {
+    if (user.name.trim().length === 0 || user.age.trim().length === 0) {
       setInvalid(true);
       setErrorMessage("Please enter a valid name and age (non-empty values).");
       return;
@@ -71,7 +71,7 @@ export default function AddUser(props) {
             />
           </div>
           <div>
-            <Button>Add User</Button>
+            <Button type="submit">Add User</Button>
           </div>
         </form>
       </Card>

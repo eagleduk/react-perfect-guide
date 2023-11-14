@@ -5,7 +5,11 @@ export default function Button(props) {
     ? () => props.handleClickEvent(false)
     : null;
   return (
-    <button onClick={onClickEvent} className={styles.button}>
+    <button
+      type={props.type || "button"}
+      onClick={onClickEvent}
+      className={styles.button}
+    >
       {props.children}
     </button>
   );
