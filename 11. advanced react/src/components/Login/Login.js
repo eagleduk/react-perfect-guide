@@ -1,59 +1,108 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 
 import Card from "../UI/Card/Card";
 import classes from "./Login.module.css";
 import Button from "../UI/Button/Button";
 
-const Login = (props) => {
-  const [enteredEmail, setEnteredEmail] = useState("");
-  const [emailIsValid, setEmailIsValid] = useState();
-  const [enteredPassword, setEnteredPassword] = useState("");
-  const [passwordIsValid, setPasswordIsValid] = useState();
-  const [formIsValid, setFormIsValid] = useState(false);
-
-  useEffect(() => {
-    // 종속성의 값이 변경될 때마다 state 를 변경하는 필요없는 동작을 하지 않기 위해 Timeout 으로 시간 차를 준다.
-    let checkValid = setTimeout(() => {
-      console.log("Start Validate");
-      setFormIsValid(
-        enteredEmail.includes("@") && enteredPassword.trim().length > 6
-      );
-    }, 500);
-
-    // setTimeout 이 중첩되지 않게 useEffect 가 재 수행 될때 오래된 timeout 객체는 제거 한다.
-    return () => {
-      console.log("Clean up");
-      clearTimeout(checkValid);
+const emailReducer = (state, action) => {
+  if (action.type === "INPUT_ACTION") {
+    return {
+      value: action.value,
+      isValid: action.value.includes("@"),
     };
-  }, [enteredEmail, enteredPassword]);
+  } else if (action.type === "BLUR_ACTION") {
+    return {
+      value: state.value,
+      isValid: state.value.includes("@"),
+    };
+  }
+  return {
+    value: "",
+    isValid: false,
+  };
+};
 
+const passwordReducer = (state, action) => {
+  if (action.type === "INPUT_ACTION") {
+    return {
+      value: action.value,
+      isValid: action.value.trim().length > 6,
+    };
+  } else if (action.type === "BLUR_ACTION") {
+    return {
+      value: state.value,
+      isValid: state.value.trim().length > 6,
+    };
+  }
+  return {
+    value: "",
+    isValid: false,
+  };
+};
+
+const Login = (props) => {
+  const [reducerEmail, reducerEmailDispatch] = useReducer(emailReducer, {
+    value: "",
+    isValid: null,
+  });
+
+  const [reducerPassword, reducerPasswordDispatch] = useReducer(
+    passwordReducer,
+    {
+      value: "",
+      isValid: null,
+    }
+  );
+  const [formIsValid, setFormIsValid] = useState(false);
+  console.log(reducerPassword, reducerEmail);
+
+  // useEffect(() => {
+  //   // 종속성의 값이 변경될 때마다 state 를 변경하는 필요없는 동작을 하지 않기 위해 Timeout 으로 시간 차를 준다.
+  //   let checkValid = setTimeout(() => {
+  //     console.log("Start Validate");
+  //     setFormIsValid(
+  //       enteredEmail.includes("@") && enteredPassword.trim().length > 6
+  //     );
+  //   }, 500);
+
+  //   // setTimeout 이 중첩되지 않게 useEffect 가 재 수행 될때 오래된 timeout 객체는 제거 한다.
+  //   return () => {
+  //     console.log("Clean up");
+  //     clearTimeout(checkValid);
+  //   };
+  // }, [enteredEmail, enteredPassword]);
   const emailChangeHandler = (event) => {
-    setEnteredEmail(event.target.value);
-
-    // setFormIsValid(
-    //   event.target.value.includes('@') && enteredPassword.trim().length > 6
-    // );
+    reducerEmailDispatch({ type: "INPUT_ACTION", value: event.target.value });
+    // 이곳에서는 수정내용이 반영되지 않는다.
+    // => 화면이 업데이트가 되어야 값 변경이 반영되는 듯.
+    // => 같은 함수 내에 있어서 화면 업데이트가 되기 전에 유효성 검사가 진행 되고 화면 업데이트.
+    setFormIsValid(reducerPassword.isValid && event.target.value.includes("@"));
   };
 
   const passwordChangeHandler = (event) => {
-    setEnteredPassword(event.target.value);
-
-    // setFormIsValid(
-    //   event.target.value.trim().length > 6 && enteredEmail.includes('@')
-    // );
+    reducerPasswordDispatch({
+      type: "INPUT_ACTION",
+      value: event.target.value,
+    });
+    // 이곳에서는 수정내용이 반영되지 않는다.
+    // => 화면이 업데이트가 되어야 값 변경이 반영되는 듯.
+    // => 같은 함수 내에 있어서 화면 업데이트가 되기 전에 유효성 검사가 진행 되고 화면 업데이트.
+    setFormIsValid(
+      event.target.value.trim().length > 6 && reducerEmail.isValid
+    );
   };
 
   const validateEmailHandler = () => {
-    setEmailIsValid(enteredEmail.includes("@"));
+    reducerEmailDispatch({ type: "BLUR_ACTION" });
   };
 
   const validatePasswordHandler = () => {
-    setPasswordIsValid(enteredPassword.trim().length > 6);
+    reducerPasswordDispatch({ type: "BLUR_ACTION" });
   };
 
   const submitHandler = (event) => {
     event.preventDefault();
-    props.onLogin(enteredEmail, enteredPassword);
+    props.onLogin(reducerEmail.value, reducerPassword.value);
   };
 
   return (
@@ -61,28 +110,28 @@ const Login = (props) => {
       <form onSubmit={submitHandler}>
         <div
           className={`${classes.control} ${
-            emailIsValid === false ? classes.invalid : ""
+            reducerEmail.isValid === false ? classes.invalid : ""
           }`}
         >
           <label htmlFor="email">E-Mail</label>
           <input
             type="email"
             id="email"
-            value={enteredEmail}
+            value={reducerEmail.value}
             onChange={emailChangeHandler}
             onBlur={validateEmailHandler}
           />
         </div>
         <div
           className={`${classes.control} ${
-            passwordIsValid === false ? classes.invalid : ""
+            reducerPassword.isValid === false ? classes.invalid : ""
           }`}
         >
           <label htmlFor="password">Password</label>
           <input
             type="password"
             id="password"
-            value={enteredPassword}
+            value={reducerPassword.value}
             onChange={passwordChangeHandler}
             onBlur={validatePasswordHandler}
           />
