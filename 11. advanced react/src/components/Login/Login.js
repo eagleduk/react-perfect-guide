@@ -54,23 +54,19 @@ const Login = (props) => {
     }
   );
   const [formIsValid, setFormIsValid] = useState(false);
-  console.log(reducerPassword, reducerEmail);
 
-  // useEffect(() => {
-  //   // 종속성의 값이 변경될 때마다 state 를 변경하는 필요없는 동작을 하지 않기 위해 Timeout 으로 시간 차를 준다.
-  //   let checkValid = setTimeout(() => {
-  //     console.log("Start Validate");
-  //     setFormIsValid(
-  //       enteredEmail.includes("@") && enteredPassword.trim().length > 6
-  //     );
-  //   }, 500);
+  useEffect(
+    () => {
+      // 종속성의 값이 변경될 때마다 state 를 변경하는 필요없는 동작을 하지 않기 위해 Timeout 으로 시간 차를 준다.
+      setFormIsValid(reducerEmail.isValid && reducerPassword.isValid);
 
-  //   // setTimeout 이 중첩되지 않게 useEffect 가 재 수행 될때 오래된 timeout 객체는 제거 한다.
-  //   return () => {
-  //     console.log("Clean up");
-  //     clearTimeout(checkValid);
-  //   };
-  // }, [enteredEmail, enteredPassword]);
+      // setTimeout 이 중첩되지 않게 useEffect 가 재 수행 될때 오래된 timeout 객체는 제거 한다.
+    },
+    // reducer 에는 값이 하나만 있지 않는 경우가 많기 때문에
+    // 필요한 값만 꺼내서 useEffect 수행 횟수를 줄여준다.
+    [reducerEmail.isValid, reducerPassword.isValid]
+  );
+
   const emailChangeHandler = (event) => {
     reducerEmailDispatch({ type: "INPUT_ACTION", value: event.target.value });
     // 이곳에서는 수정내용이 반영되지 않는다.
