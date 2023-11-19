@@ -68,4 +68,7 @@ const context = React.createContext([initValue]);
         }
     }
 </context.Consumer>
+
+// Context 사용 밥법 2.
+const ctx = useContext(context);
 ```
