@@ -1,8 +1,9 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useContext, useEffect, useReducer, useState } from "react";
 
 import Card from "../UI/Card/Card";
 import classes from "./Login.module.css";
 import Button from "../UI/Button/Button";
+import AuthContext from "../context/auth.context";
 
 const emailReducer = (state, action) => {
   if (action.type === "INPUT_ACTION") {
@@ -55,6 +56,8 @@ const Login = (props) => {
   );
   const [formIsValid, setFormIsValid] = useState(false);
 
+  const authCtx = useContext(AuthContext);
+
   useEffect(
     () => {
       // 종속성의 값이 변경될 때마다 state 를 변경하는 필요없는 동작을 하지 않기 위해 Timeout 으로 시간 차를 준다.
@@ -98,7 +101,7 @@ const Login = (props) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    props.onLogin(reducerEmail.value, reducerPassword.value);
+    authCtx.onLogin(reducerEmail.value, reducerPassword.value);
   };
 
   return (
