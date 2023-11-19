@@ -49,7 +49,8 @@ function App() {
 
 ## Context
 
-React App 에서 Global 한 상태를 관리하고 싶을 때 사용
+- React App 에서 Global 한 상태를 관리하고 싶을 때 사용
+- State 가 자주 변경 되는 데이터 관리에는 적합하지 않다(=> redux)
 
 ```
 // Context 생성
