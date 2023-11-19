@@ -73,3 +73,34 @@ const context = React.createContext([initValue]);
 // Context 사용 밥법 2.
 const ctx = useContext(context);
 ```
+
+## useRef
+
+- 상위 컴포넌트에서 하위 컴포넌트로의 Reference 맵핑
+- 하위 컴포넌트에서 상위 컴포넌트로의 Reference 함수 및 데이터 맵핑
+
+```
+// Parent.js
+const parentComponent = () => {
+    const childRef = createRef();
+
+    childRef.current.focus();
+
+    return <div>
+        <Child ref={childRef} />
+    </div>
+}
+
+// Child.js
+const Child = React.forwardRef((props, ref) => {
+    const ref = useRef();
+
+    useImperativeHandle(ref, () => {
+        return {
+            focus: () => ref.current.focus(),
+        };
+    });
+
+    <Input ref={ref} />
+});
+```
