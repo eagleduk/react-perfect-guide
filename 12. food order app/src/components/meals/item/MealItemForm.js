@@ -9,7 +9,6 @@ function MealItemForm(props) {
 
   const handleAddCart = (event) => {
     event.preventDefault();
-    console.log(props.id, props.price, count);
     cartContext.addItem(props.id, props.name, props.price, count);
   };
 

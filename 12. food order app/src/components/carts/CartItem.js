@@ -1,6 +1,13 @@
 import styles from "./CartItem.module.css";
 
 function CartItem(props) {
+  const handleAddClick = () => {
+    props.onAddItem(props.id, props.name, props.price, "1");
+  };
+
+  const handleRemoveClick = () => {
+    props.onRemoveItem(props.id, props.price, "1");
+  };
   return (
     <div className={styles["cart-item"]}>
       <div>
@@ -11,8 +18,8 @@ function CartItem(props) {
         </div>
       </div>
       <div className={styles.actions}>
-        <button>-</button>
-        <button>+</button>
+        <button onClick={handleRemoveClick}>-</button>
+        <button onClick={handleAddClick}>+</button>
       </div>
     </div>
   );

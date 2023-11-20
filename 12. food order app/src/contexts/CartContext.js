@@ -15,26 +15,29 @@ export function CartContextProvider(props) {
   const addItem = (id, name, price, amount) => {
     setTotalAmount((current) => (current += +price * +amount));
     setList((current) => {
-      if (list[id] !== undefined) {
-        list[id].amount += +amount;
+      if (current[id] !== undefined) {
+        current[id].amount += +amount;
       } else {
-        list[id] = {
+        current[id] = {
           price,
           name,
           amount: +amount,
         };
       }
-      return list;
+      return current;
     });
   };
 
   const removeItem = (id, price, amount) => {
     setTotalAmount((current) => (current -= +price * +amount));
     setList((current) => {
-      if (list[id] !== undefined) {
-        list[id].amount -= +amount;
+      if (current[id] !== undefined) {
+        current[id].amount -= +amount;
       }
-      return list;
+      if (current[id].amount === 0) {
+        delete current[id];
+      }
+      return current;
     });
   };
 

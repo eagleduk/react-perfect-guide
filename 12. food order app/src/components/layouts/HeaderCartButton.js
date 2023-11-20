@@ -1,11 +1,13 @@
 import styles from "./HeaderCartButton.module.css";
 
 import CartIcon from "../../assets/CartIcon";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Cart from "../carts/Cart";
 import Modal from "../ui/Modal";
+import CartContext from "../../contexts/CartContext";
 
 function HeaderCartButton(props) {
+  const cartCtx = useContext(CartContext);
   const [display, setDisplay] = useState(false);
   const clickButton = () => {
     setDisplay(true);
@@ -13,8 +15,8 @@ function HeaderCartButton(props) {
   return (
     <>
       {display && (
-        <Modal>
-          <Cart />
+        <Modal onDisplay={setDisplay}>
+          <Cart onDisplay={setDisplay} />
         </Modal>
       )}
       <div className={styles.button} onClick={clickButton}>
@@ -22,7 +24,9 @@ function HeaderCartButton(props) {
           <CartIcon />
         </div>
         <label>Your Cart</label>
-        <button className={styles.badge}>0</button>
+        <button className={styles.badge}>
+          {Object.values(cartCtx.list).reduce((t, c) => (t += c.amount), 0)}
+        </button>
       </div>
     </>
   );
