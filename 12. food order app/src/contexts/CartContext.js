@@ -32,7 +32,8 @@ export function CartContextProvider(props) {
     setTotalAmount((current) => (current -= +price * +amount));
     setList((current) => {
       if (current[id] !== undefined) {
-        current[id].amount -= +amount;
+        current[id].amount =
+          current[id].amount === 1 ? 0 : current[id].amount - +amount;
       }
       if (current[id].amount === 0) {
         delete current[id];

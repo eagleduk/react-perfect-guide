@@ -2,6 +2,7 @@ import { useContext } from "react";
 import styles from "./Cart.module.css";
 import CartItem from "./CartItem";
 import CartContext from "../../contexts/CartContext";
+import Modal from "../ui/Modal";
 
 function Cart(props) {
   const cartItems = useContext(CartContext);
@@ -9,7 +10,7 @@ function Cart(props) {
     console.log("Order....");
   };
   return (
-    <div className={styles["cart-items"]}>
+    <Modal className={styles["cart-items"]}>
       {Object.entries(cartItems.list).map(([id, value]) => {
         return (
           <CartItem
@@ -34,11 +35,13 @@ function Cart(props) {
         >
           Close
         </button>
-        <button className={styles["button"]} onClick={handleOrderClick}>
-          Order
-        </button>
+        {cartItems.totalAmount > 0 && (
+          <button className={styles["button"]} onClick={handleOrderClick}>
+            Order
+          </button>
+        )}
       </div>
-    </div>
+    </Modal>
   );
 }
 
