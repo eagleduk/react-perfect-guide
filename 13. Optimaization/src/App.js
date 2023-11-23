@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 
 import "./App.css";
 import Button from "./components/UI/Button/Button";
@@ -14,9 +14,9 @@ function App() {
     setShowParagraph((prev) => !prev);
   };
 
-  const consoleButton = () => {
+  const consoleButton = useCallback(() => {
     console.log("Console Button Event.");
-  };
+  }, []);
 
   return (
     <div className="app">
