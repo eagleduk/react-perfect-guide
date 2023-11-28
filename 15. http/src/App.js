@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 
 import MoviesList from "./components/MoviesList";
 import "./App.css";
+import AddMovie from "./components/AddMovie";
 
 function App() {
   const [movies, setMovies] = useState([]);
@@ -12,21 +13,22 @@ function App() {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fetch("https://swapi.dev/api/films");
+      const response = await fetch(
+        "https://udemy-perfect-react-default-rtdb.asia-southeast1.firebasedatabase.app/movie.json"
+      );
 
       if (!response.ok) {
         throw new Error("Response Error!");
       }
       const data = await response.json();
-
-      setMovies(
-        data.results.map((movie) => ({
-          title: movie.title,
-          id: movie.episode_id,
-          openingText: movie.opening_crawl,
-          releaseDate: movie.release_date,
-        }))
-      );
+      if (data != null) {
+        setMovies(
+          Object.entries(data).map(([id, value]) => ({
+            ...value,
+            id,
+          }))
+        );
+      }
     } catch (error) {
       setError(error.message);
     }
@@ -37,6 +39,19 @@ function App() {
     handleFetchButton();
   }, [handleFetchButton]);
 
+  const handleAddMovieEvent = async (movie) => {
+    await fetch(
+      "https://udemy-perfect-react-default-rtdb.asia-southeast1.firebasedatabase.app/movie.json",
+      {
+        method: "POST",
+        body: JSON.stringify(movie),
+        headers: {
+          "Content-type": "application/json",
+        },
+      }
+    );
+  };
+
   let content = <p> No Results.</p>;
   if (movies.length > 0) content = <MoviesList movies={movies} />;
   if (error) content = <p>{error}</p>;
@@ -44,6 +59,9 @@ function App() {
 
   return (
     <React.Fragment>
+      <section>
+        <AddMovie onAddMovie={handleAddMovieEvent} />
+      </section>
       <section>
         <button onClick={handleFetchButton}>Fetch Movies</button>
       </section>
