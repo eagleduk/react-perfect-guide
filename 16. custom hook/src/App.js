@@ -1,65 +1,47 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import Tasks from "./components/Tasks/Tasks";
 import NewTask from "./components/NewTask/NewTask";
 import useHttp from "./hooks/useHttp";
 
 function App() {
-  const { error, tasks, isLoading, fetchTasks, enterTaskHandler } = useHttp();
+  const [tasks, setTasks] = useState([]);
 
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [error, setError] = useState(null);
-  // const [tasks, setTasks] = useState([]);
+  const responseFn = useCallback(
+    (responseData) => {
+      const loadedTasks = [];
 
-  // const fetchTasks = async () => {
-  //   setIsLoading(true);
-  //   setError(null);
-  //   try {
-  //     const response = await fetch(
-  //       "https://udemy-perfect-react-default-rtdb.asia-southeast1.firebasedatabase.app/tasks.json"
-  //     );
+      for (const taskKey in responseData) {
+        loadedTasks.push({ id: taskKey, text: responseData[taskKey].text });
+      }
 
-  //     if (!response.ok) {
-  //       throw new Error("Request failed!");
-  //     }
+      setTasks(loadedTasks);
+    },
+    [setTasks]
+  );
 
-  //     const data = await response.json();
-
-  //     const loadedTasks = [];
-
-  //     for (const taskKey in data) {
-  //       loadedTasks.push({ id: taskKey, text: data[taskKey].text });
-  //     }
-
-  //     setTasks(loadedTasks);
-  //   } catch (err) {
-  //     setError(err.message || "Something went wrong!");
-  //   }
-  //   setIsLoading(false);
-  // };
-
-  // const taskAddHandler = (task) => {
-  //   setTasks((prevTasks) => prevTasks.concat(task));
-  // };
+  const { error, isLoading, fetchService } = useHttp();
 
   useEffect(() => {
-    fetchTasks();
-  }, []);
+    fetchService(
+      "https://udemy-perfect-react-default-rtdb.asia-southeast1.firebasedatabase.app/tasks.json",
+      undefined,
+      responseFn
+    );
+  }, [responseFn]);
 
-  // console.log("isLoading.. ", isLoading);
+  const taskAddHandler = (task) => {
+    setTasks((prevTasks) => prevTasks.concat(task));
+  };
 
   return (
     <React.Fragment>
-      <NewTask
-        loading={isLoading}
-        error={error}
-        onEnterTask={enterTaskHandler}
-      />
+      <NewTask onAddTask={taskAddHandler} />
       <Tasks
         items={tasks}
         loading={isLoading}
         error={error}
-        onFetch={fetchTasks}
+        onFetch={fetchService}
       />
     </React.Fragment>
   );
