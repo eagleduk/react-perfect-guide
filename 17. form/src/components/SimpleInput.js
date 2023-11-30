@@ -9,7 +9,7 @@ const SimpleInput = (props) => {
     inputChangeHandler: nameChangHandler,
     inputBlurHandler: nameBlurHandler,
     inputReset: nameReset,
-  } = useInput((value) => value !== "");
+  } = useInput((value) => value.trim() !== "");
 
   const {
     value: email,
