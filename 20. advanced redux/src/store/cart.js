@@ -3,6 +3,7 @@ import { layoutActions } from "./layout";
 
 const initialState = {
   items: {},
+  fetchData: false,
   totalPrice: 0,
 };
 
@@ -10,6 +11,10 @@ const slice = createSlice({
   name: "cart",
   initialState,
   reducers: {
+    setCart: (state, action) => {
+      state.totalPrice = action.payload.totalPrice;
+      state.items = action.payload.items || {};
+    },
     addCart: (state, action) => {
       const { id, price, quantity } = action.payload;
 
@@ -20,6 +25,7 @@ const slice = createSlice({
       }
 
       state.totalPrice += +price * +quantity;
+      state.fetchData = true;
     },
     removeCart: (state, action) => {
       const { id, quantity } = action.payload;
@@ -30,9 +36,28 @@ const slice = createSlice({
         state.items[id].quantity -= quantity;
       }
       state.totalPrice -= +price * +quantity;
+      state.fetchData = true;
     },
   },
 });
+
+export const getData = () => {
+  return async (dispatch) => {
+    const getData = async () => {
+      const response = await fetch(
+        "https://udemy-perfect-react-default-rtdb.asia-southeast1.firebasedatabase.app/redux/cart.json"
+      );
+      if (!response.ok) {
+        throw new Error("Get Error");
+      }
+
+      const data = await response.json();
+      dispatch(slice.actions.setCart(data));
+    };
+
+    await getData().catch((error) => console.log(error));
+  };
+};
 
 export const sendData = (cart) => {
   return async (dispatch) => {
@@ -47,7 +72,13 @@ export const sendData = (cart) => {
     const sendData = async (cart) => {
       const response = await fetch(
         "https://udemy-perfect-react-default-rtdb.asia-southeast1.firebasedatabase.app/redux/cart.json",
-        { method: "PUT", body: JSON.stringify(cart) }
+        {
+          method: "PUT",
+          body: JSON.stringify({
+            items: cart.items,
+            totalPrice: cart.totalPrice,
+          }),
+        }
       );
       if (!response.ok) {
         throw new Error("Send Error");

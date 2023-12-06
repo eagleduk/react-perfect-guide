@@ -4,7 +4,7 @@ import Layout from "./components/Layout/Layout";
 import Products from "./components/Shop/Products";
 import { useEffect } from "react";
 import Notification from "./components/UI/Notification";
-import { sendData } from "./store/cart";
+import { sendData, getData } from "./store/cart";
 
 let initialState = true;
 
@@ -15,11 +15,18 @@ function App() {
   const notification = useSelector((state) => state.layout.notification);
 
   useEffect(() => {
+    if (!initialState) {
+      return;
+    }
+    dispatch(getData());
+  }, [dispatch]);
+
+  useEffect(() => {
     if (initialState) {
       initialState = false;
       return;
     }
-    dispatch(sendData(cart));
+    if (cart.fetchData) dispatch(sendData(cart));
 
     // dispatch(async (dispatch) => {
     //   dispatch(
