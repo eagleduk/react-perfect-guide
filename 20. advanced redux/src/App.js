@@ -3,8 +3,8 @@ import Cart from "./components/Cart/Cart";
 import Layout from "./components/Layout/Layout";
 import Products from "./components/Shop/Products";
 import { useEffect } from "react";
-import { layoutActions } from "./store/layout";
 import Notification from "./components/UI/Notification";
+import { sendData } from "./store/cart";
 
 let initialState = true;
 
@@ -19,41 +19,45 @@ function App() {
       initialState = false;
       return;
     }
-    dispatch(
-      layoutActions.setNotification({
-        status: "pending",
-        title: "Sending...",
-        message: "Sending Data...",
-      })
-    );
+    dispatch(sendData(cart));
 
-    const sendData = async (cart) => {
-      const response = await fetch(
-        "https://udemy-perfect-react-default-rtdb.asia-southeast1.firebasedatabase.app/redux/cart.json",
-        { method: "PUT", body: JSON.stringify(cart) }
-      );
-      if (!response.ok) {
-        throw new Error("Send Error");
-      }
+    // dispatch(async (dispatch) => {
+    //   dispatch(
+    //     layoutActions.setNotification({
+    //       status: "pending",
+    //       title: "Sending...",
+    //       message: "Sending Data...",
+    //     })
+    //   );
 
-      dispatch(
-        layoutActions.setNotification({
-          status: "success",
-          title: "Success...",
-          message: "Success Send Data...",
-        })
-      );
-    };
+    //   const sendData = async (cart) => {
+    //     const response = await fetch(
+    //       "https://udemy-perfect-react-default-rtdb.asia-southeast1.firebasedatabase.app/redux/cart.json",
+    //       { method: "PUT", body: JSON.stringify(cart) }
+    //     );
+    //     if (!response.ok) {
+    //       throw new Error("Send Error");
+    //     }
 
-    sendData(cart).catch((error) => {
-      dispatch(
-        layoutActions.setNotification({
-          status: "error",
-          title: "Error",
-          message: error.message,
-        })
-      );
-    });
+    //     dispatch(
+    //       layoutActions.setNotification({
+    //         status: "success",
+    //         title: "Success...",
+    //         message: "Success Send Data...",
+    //       })
+    //     );
+    //   };
+
+    //   sendData(cart).catch((error) => {
+    //     dispatch(
+    //       layoutActions.setNotification({
+    //         status: "error",
+    //         title: "Error",
+    //         message: error.message,
+    //       })
+    //     );
+    //   });
+    // });
   }, [cart, dispatch]);
 
   return (

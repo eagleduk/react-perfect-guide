@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { layoutActions } from "./layout";
 
 const initialState = {
   items: {},
@@ -32,6 +33,46 @@ const slice = createSlice({
     },
   },
 });
+
+export const sendData = (cart) => {
+  return async (dispatch) => {
+    dispatch(
+      layoutActions.setNotification({
+        status: "pending",
+        title: "Sending...",
+        message: "Sending Data...",
+      })
+    );
+
+    const sendData = async (cart) => {
+      const response = await fetch(
+        "https://udemy-perfect-react-default-rtdb.asia-southeast1.firebasedatabase.app/redux/cart.json",
+        { method: "PUT", body: JSON.stringify(cart) }
+      );
+      if (!response.ok) {
+        throw new Error("Send Error");
+      }
+
+      dispatch(
+        layoutActions.setNotification({
+          status: "success",
+          title: "Success...",
+          message: "Success Send Data...",
+        })
+      );
+    };
+
+    sendData(cart).catch((error) => {
+      dispatch(
+        layoutActions.setNotification({
+          status: "error",
+          title: "Error",
+          message: error.message,
+        })
+      );
+    });
+  };
+};
 
 export default slice.reducer;
 
