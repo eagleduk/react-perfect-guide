@@ -1,11 +1,11 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import HomePage from "./pages/HomePage";
+import Home from "./pages/Home";
 import Index from "./pages/Index";
-import EventDetailPage from "./pages/events/EventDetailPage";
-import NewEventPage from "./pages/events/NewEventPage";
-import EditEventPage from "./pages/events/EditEventPage";
+import EventDetailPage from "./pages/events/EventDetail";
+import NewEventPage from "./pages/events/NewEvent";
+import EditEventPage from "./pages/events/EditEvent";
 import Event from "./pages/events/Index";
-import EventsPage from "./pages/events/EventsPage";
+import EventsPage from "./pages/events/Events";
 // Challenge / Exercise
 
 // 1. Add five new (dummy) page components (content can be simple <h1> elements)
@@ -35,7 +35,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <HomePage />,
+        element: <Home />,
       },
       {
         path: "events",

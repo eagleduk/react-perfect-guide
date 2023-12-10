@@ -5,9 +5,7 @@ function Index() {
   return (
     <>
       <EventsNavigation />
-      <div>
-        <Outlet />
-      </div>
+      <Outlet />
     </>
   );
 }

@@ -11,7 +11,7 @@ const DUMMYEVENTS = [
   },
 ];
 
-function EventsPage() {
+function Events() {
   return (
     <>
       <ul>
@@ -27,4 +27,4 @@ function EventsPage() {
   );
 }
 
-export default EventsPage;
+export default Events;
