@@ -1,30 +1,20 @@
-import { Link } from "react-router-dom";
-
-const DUMMYEVENTS = [
-  {
-    id: "e1",
-    text: "Events 1",
-  },
-  {
-    id: "e2",
-    text: "Events 2",
-  },
-];
+import { useLoaderData, json } from "react-router-dom";
+import EventsList from "../../components/EventsList";
 
 function Events() {
-  return (
-    <>
-      <ul>
-        {DUMMYEVENTS.map((event) => {
-          return (
-            <li key={event.id}>
-              <Link to={`/events/${event.id}`}>{event.text}</Link>
-            </li>
-          );
-        })}
-      </ul>
-    </>
-  );
+  const data = useLoaderData();
+  const events = data.events;
+  return <EventsList events={events} />;
 }
 
 export default Events;
+
+export async function loader() {
+  const response = await fetch("http://localhost:8080/events");
+
+  if (!response.ok) {
+    throw json({ message: "Could not fetch events." }, { status: 500 });
+  } else {
+    return response;
+  }
+}

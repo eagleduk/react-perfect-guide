@@ -1,9 +1,11 @@
-import { useParams } from "react-router-dom";
+import { useRouteLoaderData } from "react-router-dom";
+import EventForm from "../../components/EventForm";
 
 function EditEvent() {
-  const params = useParams();
+  const data = useRouteLoaderData("event-detail");
+  const event = data.event;
 
-  return <h1>{params.id} Edit</h1>;
+  return <EventForm event={event} />;
 }
 
 export default EditEvent;
