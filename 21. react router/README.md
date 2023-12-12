@@ -1,5 +1,7 @@
 ## React Router DOM
 
+### Route
+
 #### loader
 
 - router 에서 Component 를 랜더링 전에 함수를 실행할 수 있게 해준다.
@@ -68,3 +70,16 @@ createBrowserRouter([
   > useActionData()
 - Router action 에 제공후 useSubmit() 함수를 사용하여 제공된 action 을 Form Component 없이 사용할 수 있다.
   > useSubmit()
+
+
+### Hooks
+
+#### useNavigation
+- 현재 react router dom 을 이용하여 loader / action 수행시에 상태 및 반환 데이터를 받을 수 있게 해준다.
+
+```
+const {state, location, formData, json, text, formAction, formMethod, formEncType} = useNavigation();
+```
+
+#### useFetcher
+- usefetcher 에서 제공하는 Form 을 사용하여 현재 페이지에서 벗어나지 않고 제공된 loader/ action / submit 을 수행할 수 있게 해준다.
