@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Form, json, redirect, useNavigate } from "react-router-dom";
 
 import classes from "./EventForm.module.css";
 
@@ -9,7 +9,7 @@ function EventForm({ method, event }) {
   }
 
   return (
-    <form className={classes.form}>
+    <Form method={method} className={classes.form}>
       <p>
         <label htmlFor="title">Title</label>
         <input
@@ -56,8 +56,40 @@ function EventForm({ method, event }) {
         </button>
         <button>Save</button>
       </div>
-    </form>
+    </Form>
   );
 }
 
 export default EventForm;
+
+export async function action({ request, params }) {
+  const method = request.method;
+
+  let url = "http://localhost:8080/events";
+  if (method === "PATCH") {
+    const id = params.id;
+    url += "/" + id;
+  }
+
+  const formData = await request.formData();
+
+  const data = {
+    title: formData.get("title"),
+    image: formData.get("image"),
+    date: formData.get("date"),
+    description: formData.get("description"),
+  };
+
+  const response = await fetch(url, {
+    method: method,
+    headers: {
+      "Content-type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    throw json({ message: response.statusText }, { status: response.status });
+  }
+  return redirect("/events");
+}

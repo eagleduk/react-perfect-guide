@@ -61,3 +61,10 @@ createBrowserRouter([
   },
 ]);
 ```
+
+#### action
+- React Router DOM 에서 제공하는 Form Component 의 submit 에 대한 함수를 설정할 수 있다.
+- action 에 대한 결과값을 추출할 수 있다.
+  > useActionData()
+- Router action 에 제공후 useSubmit() 함수를 사용하여 제공된 action 을 Form Component 없이 사용할 수 있다.
+  > useSubmit()
