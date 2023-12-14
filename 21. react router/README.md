@@ -83,3 +83,9 @@ const {state, location, formData, json, text, formAction, formMethod, formEncTyp
 
 #### useFetcher
 - usefetcher 에서 제공하는 Form 을 사용하여 현재 페이지에서 벗어나지 않고 제공된 loader/ action / submit 을 수행할 수 있게 해준다.
+
+### Utils
+
+#### defer
+- promise 를 가지는 객체를 인자로 받는다.
+- 각 promise 별로 promise 가 종료될 때까지 기다리지 않고 `<Await> && <Suspense fallback>` 컴포넌트를 사용하여 다른 Component를 랜더링이 가능하게 해준다.
