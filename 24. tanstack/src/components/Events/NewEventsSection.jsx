@@ -1,29 +1,34 @@
-import { useEffect, useState } from 'react';
 import { useQuery } from "@tanstack/react-query";
 
-import LoadingIndicator from '../UI/LoadingIndicator.jsx';
-import ErrorBlock from '../UI/ErrorBlock.jsx';
-import EventItem from './EventItem.jsx';
-import { fetchEvents } from '../../util/http.js';
+import LoadingIndicator from "../UI/LoadingIndicator.jsx";
+import ErrorBlock from "../UI/ErrorBlock.jsx";
+import EventItem from "./EventItem.jsx";
+import { fetchEvents } from "../../util/http.js";
 
 export default function NewEventsSection() {
-
   const { data, isPending, isError, error } = useQuery({
     queryKey: ["events"],
     queryFn: fetchEvents,
-    staleTime: 3000,
+    staleTime: 5000,
     // gcTime: 1000
   });
 
   let content;
 
   if (isPending) {
-    content = <LoadingIndicator />;
+    content = (
+      <div style={{ textAlign: "center" }}>
+        <LoadingIndicator />
+      </div>
+    );
   }
 
   if (isError) {
     content = (
-      <ErrorBlock title="An error occurred" message={ error?.message || "Failed to fetch events"} />
+      <ErrorBlock
+        title="An error occurred"
+        message={error?.message || "Failed to fetch events"}
+      />
     );
   }
 

@@ -13,13 +13,13 @@ export default function EventDetails() {
   const {mutate} = useMutation({
     mutationFn: deleteEvent,
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ["events"]})
+      queryClient.invalidateQueries({queryKey: ["events"], refetchType: "none"})
       navigate("/events");
     }
   })
 
   const {data, isPending, isError, error} = useQuery({
-    queryKey: ["event", {id}],
+    queryKey: ["events", id],
     queryFn: ({signal}) => fetchEvent({signal, id})
   });
 
@@ -28,7 +28,7 @@ export default function EventDetails() {
   }
 
   let content;
-  if(isPending) content = <LoadingIndicator />
+  if(isPending) content = <div style={{textAlign: "center"}} ><LoadingIndicator /></div>
   if(isError) content = <ErrorBlock title={"Get Data Error"} message={error.message || "Error"} />
   if(data) content = (<article id="event-details">
 
