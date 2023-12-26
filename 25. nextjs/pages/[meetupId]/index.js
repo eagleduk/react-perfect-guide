@@ -28,13 +28,14 @@ export async function getStaticPaths(context) {
 }
 
 export async function getStaticProps(context) {
-  return {
-    props: {
-      image:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/1280px-Stadtbild_M%C3%BCnchen.jpg",
-      title: "title",
-      description: "description",
-      address: "address",
-    },
-  };
+  const { meetupId } = context.params;
+  const response = await fetch("http://localhost:3000/api/meets/" + meetupId, {
+    method: "GET",
+  });
+  const { data } = await response.json();
+  if (data.length > 0) {
+    return {
+      props: data[0],
+    };
+  }
 }
