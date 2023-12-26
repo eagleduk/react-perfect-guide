@@ -17,8 +17,17 @@ const list = [
   },
 ];
 
-function Home() {
-  return <MeetupList meetups={list} />;
+function Home(props) {
+  return <MeetupList meetups={props.meetups} />;
 }
 
 export default Home;
+
+export async function getStaticProps(context) {
+  return {
+    props: {
+      meetups: list,
+    },
+    revalidate: 10,
+  };
+}
