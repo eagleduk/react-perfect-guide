@@ -11,3 +11,11 @@
    - Project Build 시 fetch 하는 방식
    - build 시 모든 데이터에 대하여 대상 Path 를 생성해야 하기 때문에 그에 대한 path 검색도 이루어 져야 한다
    - `revalidate` 옵션을 사용하여 주기적으로 build 결과를 가져올 수 있다
+
+   #### getStaticPaths
+
+   - `getStaticPaths` 함수를 이용하여 동적 URL Path 검색을 할 수 있다
+
+   #### getServerSideProps
+
+   - 페이지 요청이 있을 때에 fetch 하는 방식
