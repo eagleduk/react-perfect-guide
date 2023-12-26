@@ -19,3 +19,7 @@
    #### getServerSideProps
 
    - 페이지 요청이 있을 때에 fetch 하는 방식
+
+2. API
+
+   - pages 내에 api 폴더 내에 url 주소로 `*.js` 파일을 생성하면 Nextjs 에서 자동으로 API 로 등록된다
