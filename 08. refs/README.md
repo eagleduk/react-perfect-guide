@@ -37,3 +37,8 @@ const Child = React.forwardRef((props, ref) => {
 
 #### useImperativeHandle
 - ref 로 참조된 component 내부에서 사용자가 정의한 함수나 변수를 공유하기 위하여 사용한다.
+
+## Portal
+
+HTML에 직접 표현하고자 하는 DOM Element 에 접근하여 React 컴포넌트를 랜더링 하는것.
+ReactDOM.createPortal([React Component], [html dom element] ) 함수 사용
