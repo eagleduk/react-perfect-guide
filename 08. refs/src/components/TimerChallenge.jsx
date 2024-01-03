@@ -4,25 +4,37 @@ import ResultModal from "./ResultModal";
 export default function TimerChallenge({ title, targetTime }) {
   let timer = useRef();
   let resultModal = useRef();
-  const [gameStart, setGameStart] = useState(false);
-  const [failChallenge, setFailChallenge] = useState(null);
+
+  const [resultTime, setResultTime] = useState(targetTime * 1000);
+  const gameStart = resultTime > 0 && resultTime < targetTime * 1000;
+
+  if (resultTime <= 0) {
+    resultModal.current.open();
+    clearInterval(timer.current);
+  }
+
+  function handleGameReset() {
+    setResultTime(targetTime * 1000);
+  }
 
   function handleGameStartEvent() {
-    timer.current = setTimeout(() => {
-      setFailChallenge(true);
-      resultModal.current.open();
-    }, targetTime * 1000);
-    setFailChallenge(false);
-    setGameStart(true);
+    timer.current = setInterval(() => {
+      setResultTime((prev) => prev - 10);
+    }, 10);
   }
 
   function handleGameStopEvent() {
-    clearTimeout(timer.current);
-    setGameStart(false);
+    resultModal.current.open();
+    clearInterval(timer.current);
   }
   return (
     <>
-      <ResultModal ref={resultModal} targetTime={targetTime} result={"lose"} />
+      <ResultModal
+        ref={resultModal}
+        targetTime={targetTime}
+        resultTime={resultTime}
+        onReset={handleGameReset}
+      />
       <section className="challenge">
         <h2>{title}</h2>
         <p className="challenge-time">{targetTime} second</p>
