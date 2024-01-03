@@ -10,7 +10,7 @@ export default function TimerChallenge({ title, targetTime }) {
   function handleGameStartEvent() {
     timer.current = setTimeout(() => {
       setFailChallenge(true);
-      resultModal.current.showModal();
+      resultModal.current.open();
     }, targetTime * 1000);
     setFailChallenge(false);
     setGameStart(true);
