@@ -8,7 +8,12 @@ function App() {
   const [selectedProject, setSelectedProject] = useState(null);
   const [isAdd, setIsAdd] = useState(false);
 
-  function onAddProject(project) {
+  function handleAddProjectPage(isAdd) {
+    setIsAdd(isAdd);
+    setSelectedProject(null);
+  }
+
+  function handleAddProjectEvent(project) {
     setProjects((current) => ({
       ...current,
       [Date.now()]: project,
@@ -56,19 +61,24 @@ function App() {
         <Menu
           projects={projects}
           onSelect={setSelectedProject}
-          onAdd={setIsAdd}
+          onAdd={handleAddProjectPage}
           selectedId={selectedProject}
         />
       </div>
 
       <div className="flex-initial w-full text-center">
-        {isAdd && <AddProject onAdd={setIsAdd} onAddProject={onAddProject} />}
+        {isAdd && (
+          <AddProject
+            onAdd={handleAddProjectPage}
+            onAddProject={handleAddProjectEvent}
+          />
+        )}
 
         {!isAdd && (
           <ProjectTask
             project={projects[selectedProject]}
             id={selectedProject}
-            onAdd={setIsAdd}
+            onAdd={handleAddProjectPage}
             onDeleteProject={handleDeleteProjectEvent}
             onAddTask={handleAddTaskEvent}
             onDeleteTask={handleDeleteTaskEvent}

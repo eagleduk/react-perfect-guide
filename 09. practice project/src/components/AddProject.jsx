@@ -15,7 +15,7 @@ export default function AddProject({ onAdd, onAddProject }) {
 
   return (
     <section className="px-8 pr-20">
-      <p className="text-right">
+      <div className="text-right">
         <button
           onClick={() => onAdd(false)}
           className="text-stone-700 font-semibold mr-4 hover:text-stone-500"
@@ -28,8 +28,8 @@ export default function AddProject({ onAdd, onAddProject }) {
         >
           Save
         </button>
-      </p>
-      <p className="text-left">
+      </div>
+      <div className="text-left">
         <h2 className="uppercase text-stone-600 font-semibold mt-3">title</h2>
         <input
           type="text"
@@ -37,20 +37,19 @@ export default function AddProject({ onAdd, onAddProject }) {
           onChange={(event) => setTitle(event.target.value)}
           className="w-full bg-stone-300 border-b-2 p-1 border-stone-300 focus:outline-none focus:border-stone-700"
         />
-      </p>
-      <p className="text-left">
+      </div>
+      <div className="text-left">
         <h2 className="uppercase text-stone-600 font-semibold mt-3">
           description
         </h2>
         <textarea
           type="text"
           onChange={(event) => setDescription(event.target.value)}
+          value={description}
           className="w-full bg-stone-300 border-b-2 p-1 border-stone-300 focus:outline-none focus:border-stone-700"
-        >
-          {description}
-        </textarea>
-      </p>
-      <p className="text-left">
+        />
+      </div>
+      <div className="text-left">
         <h2 className="uppercase text-stone-600 font-semibold mt-3">
           due date
         </h2>
@@ -60,7 +59,7 @@ export default function AddProject({ onAdd, onAddProject }) {
           onChange={(event) => setDate(event.target.value)}
           className="w-full bg-stone-300 border-b-2 p-1 border-stone-300 focus:outline-none focus:border-stone-700"
         />
-      </p>
+      </div>
     </section>
   );
 }

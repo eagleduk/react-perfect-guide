@@ -31,7 +31,7 @@ export default function ProjectTask({
       )}
       {project && (
         <section className="text-left px-8 pr-20">
-          <p>
+          <div>
             <div className="flex justify-between">
               <h1>{project.title}</h1>
               <button onClick={() => onDeleteProject(id)}>Delete</button>
@@ -40,9 +40,9 @@ export default function ProjectTask({
             <div>
               <pre>{project.description}</pre>
             </div>
-          </p>
+          </div>
           <div className="w-full h-0.5 border-gray-300 border-1 bg-gray-300"></div>
-          <p>
+          <div>
             <h1>Tasks</h1>
             <div>
               <input
@@ -58,8 +58,8 @@ export default function ProjectTask({
                 Add Task
               </button>
             </div>
-          </p>
-          <p>
+          </div>
+          <div>
             {project.task.length === 0 && (
               <span>This project does not have any tasks yet.</span>
             )}
@@ -71,7 +71,7 @@ export default function ProjectTask({
                 </button>
               </li>
             ))}
-          </p>
+          </div>
         </section>
       )}
     </>
