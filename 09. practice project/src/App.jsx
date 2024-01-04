@@ -6,7 +6,7 @@ import ProjectTask from "./components/ProjectTask";
 function App() {
   const [projects, setProjects] = useState({});
   const [selectedProject, setSelectedProject] = useState(null);
-  const [isAdd, setIsAdd] = useState(true);
+  const [isAdd, setIsAdd] = useState(false);
 
   function onAddProject(project) {
     setProjects((current) => ({
@@ -51,24 +51,30 @@ function App() {
   }
 
   return (
-    <main>
-      <Menu
-        projects={projects}
-        onSelect={setSelectedProject}
-        onAdd={setIsAdd}
-      />
-
-      {isAdd && <AddProject onAdd={setIsAdd} onAddProject={onAddProject} />}
-
-      {!isAdd && (
-        <ProjectTask
-          project={projects[selectedProject]}
-          id={selectedProject}
-          onDeleteProject={handleDeleteProjectEvent}
-          onAddTask={handleAddTaskEvent}
-          onDeleteTask={handleDeleteTaskEvent}
+    <main className="flex w-full">
+      <div className="flex-initial w-3/5 bg-stone-900 p-8">
+        <Menu
+          projects={projects}
+          onSelect={setSelectedProject}
+          onAdd={setIsAdd}
+          selectedId={selectedProject}
         />
-      )}
+      </div>
+
+      <div className="flex-initial w-full text-center">
+        {isAdd && <AddProject onAdd={setIsAdd} onAddProject={onAddProject} />}
+
+        {!isAdd && (
+          <ProjectTask
+            project={projects[selectedProject]}
+            id={selectedProject}
+            onAdd={setIsAdd}
+            onDeleteProject={handleDeleteProjectEvent}
+            onAddTask={handleAddTaskEvent}
+            onDeleteTask={handleDeleteTaskEvent}
+          />
+        )}
+      </div>
     </main>
   );
 }

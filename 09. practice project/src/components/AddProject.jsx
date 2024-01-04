@@ -14,33 +14,51 @@ export default function AddProject({ onAdd, onAddProject }) {
   }
 
   return (
-    <section>
-      <p>
-        <button onClick={() => onAdd(false)}>Cancel</button>
-        <button onClick={handleSaveEvent}>Save</button>
+    <section className="px-8 pr-20">
+      <p className="text-right">
+        <button
+          onClick={() => onAdd(false)}
+          className="text-stone-700 font-semibold mr-4 hover:text-stone-500"
+        >
+          Cancel
+        </button>
+        <button
+          onClick={handleSaveEvent}
+          className="rounded bg-stone-800 px-4 py-2 text-stone-200 hover:bg-stone-900"
+        >
+          Save
+        </button>
       </p>
-      <p>
-        <label>title</label>
+      <p className="text-left">
+        <h2 className="uppercase text-stone-600 font-semibold mt-3">title</h2>
         <input
           type="text"
           value={title}
           onChange={(event) => setTitle(event.target.value)}
+          className="w-full bg-stone-300 border-b-2 p-1 border-stone-300 focus:outline-none focus:border-stone-700"
         />
       </p>
-      <p>
-        <label>description</label>
-        <input
+      <p className="text-left">
+        <h2 className="uppercase text-stone-600 font-semibold mt-3">
+          description
+        </h2>
+        <textarea
           type="text"
-          value={description}
           onChange={(event) => setDescription(event.target.value)}
-        />
+          className="w-full bg-stone-300 border-b-2 p-1 border-stone-300 focus:outline-none focus:border-stone-700"
+        >
+          {description}
+        </textarea>
       </p>
-      <p>
-        <label>due date</label>
+      <p className="text-left">
+        <h2 className="uppercase text-stone-600 font-semibold mt-3">
+          due date
+        </h2>
         <input
           type="date"
           value={date}
           onChange={(event) => setDate(event.target.value)}
+          className="w-full bg-stone-300 border-b-2 p-1 border-stone-300 focus:outline-none focus:border-stone-700"
         />
       </p>
     </section>
