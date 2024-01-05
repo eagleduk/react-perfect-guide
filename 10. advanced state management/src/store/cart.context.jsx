@@ -65,72 +65,10 @@ function reducer(state, action) {
 }
 
 export default function CartProvider({ children }) {
-  // const [shoppingCart, setShoppingCart] = useState({
-  //   items: [],
-  // });
-
   const [shoppingCart, dispatch] = useReducer(reducer, { items: [] });
-
-  // function handleAddItemToCart(id) {
-  //   setShoppingCart((prevShoppingCart) => {
-  //     const updatedItems = [...prevShoppingCart.items];
-
-  //     const existingCartItemIndex = updatedItems.findIndex(
-  //       (cartItem) => cartItem.id === id
-  //     );
-  //     const existingCartItem = updatedItems[existingCartItemIndex];
-
-  //     if (existingCartItem) {
-  //       const updatedItem = {
-  //         ...existingCartItem,
-  //         quantity: existingCartItem.quantity + 1,
-  //       };
-  //       updatedItems[existingCartItemIndex] = updatedItem;
-  //     } else {
-  //       const product = DUMMY_PRODUCTS.find((product) => product.id === id);
-  //       updatedItems.push({
-  //         id: id,
-  //         name: product.title,
-  //         price: product.price,
-  //         quantity: 1,
-  //       });
-  //     }
-
-  //     return {
-  //       items: updatedItems,
-  //     };
-  //   });
-  // }
-
-  // function handleUpdateCartItemQuantity(productId, amount) {
-  //   setShoppingCart((prevShoppingCart) => {
-  //     const updatedItems = [...prevShoppingCart.items];
-  //     const updatedItemIndex = updatedItems.findIndex(
-  //       (item) => item.id === productId
-  //     );
-
-  //     const updatedItem = {
-  //       ...updatedItems[updatedItemIndex],
-  //     };
-
-  //     updatedItem.quantity += amount;
-
-  //     if (updatedItem.quantity <= 0) {
-  //       updatedItems.splice(updatedItemIndex, 1);
-  //     } else {
-  //       updatedItems[updatedItemIndex] = updatedItem;
-  //     }
-
-  //     return {
-  //       items: updatedItems,
-  //     };
-  //   });
-  // }
 
   const provideValue = {
     cart: shoppingCart,
-    // addCart: handleAddItemToCart,
-    // updateCart: handleUpdateCartItemQuantity,
     addCart: (id) => dispatch({ type: "ADD", id: id }),
     updateCart: (id, amount) =>
       dispatch({ type: "UPDATE", id: id, amount: amount }),
