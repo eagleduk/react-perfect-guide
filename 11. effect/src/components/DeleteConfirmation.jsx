@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import Progress from "./Progress";
 
 const TIMER = 3000;
 
@@ -26,6 +27,7 @@ export default function DeleteConfirmation({ onConfirm, onCancel }) {
           Yes
         </button>
       </div>
+      <Progress max={TIMER} />
     </div>
   );
 }
