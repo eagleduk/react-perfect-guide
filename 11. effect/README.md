@@ -1,6 +1,6 @@
 ## useEffect
 
-```
+```javascript
 useEffect(() => , [dependencies])
 ```
 
@@ -25,7 +25,7 @@ useEffect(() => , [dependencies])
 
 ### CleanUP
 
-```
+```javascript
 useEffect(() => {
     return () => {}
 }, []);
@@ -36,7 +36,7 @@ useEffect 가 최초 수행될 때에는 수행되지 않는다.
 
 ### useCallback()
 
-```
+```javascript
 function App() {
     const handleClick = useCallback(() => {}, []);
 }

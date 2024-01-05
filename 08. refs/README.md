@@ -9,7 +9,7 @@
 - 상위 컴포넌트에서 하위 컴포넌트로의 Reference 맵핑
 - 하위 컴포넌트에서 상위 컴포넌트로의 Reference 함수 및 데이터 맵핑
 
-```
+```jsx
 // Parent.js
 const parentComponent = () => {
     const childRef = createRef();

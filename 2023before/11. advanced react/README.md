@@ -1,6 +1,6 @@
 ## useEffect
 
-```
+```javascript
 useEffect(() => , [dependencies])
 ```
 
@@ -25,7 +25,7 @@ useEffect(() => , [dependencies])
 
 ### CleanUP
 
-```
+```javascript
 useEffect(() => {
     return () => {}
 }, []);
@@ -36,7 +36,7 @@ useEffect 가 최초 수행될 때에는 수행되지 않는다.
 
 ## useReducer
 
-```
+```javascript
 const reducer = (state, action) => {};
 
 function App() {
@@ -52,7 +52,7 @@ function App() {
 - React App 에서 Global 한 상태를 관리하고 싶을 때 사용
 - State 가 자주 변경 되는 데이터 관리에는 적합하지 않다(=> redux)
 
-```
+```jsx
 // Context 생성
 const context = React.createContext([initValue]);
 
@@ -79,7 +79,7 @@ const ctx = useContext(context);
 - 상위 컴포넌트에서 하위 컴포넌트로의 Reference 맵핑
 - 하위 컴포넌트에서 상위 컴포넌트로의 Reference 함수 및 데이터 맵핑
 
-```
+```jsx
 // Parent.js
 const parentComponent = () => {
     const childRef = createRef();

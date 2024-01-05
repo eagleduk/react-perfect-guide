@@ -11,7 +11,7 @@
   > useRouterLoaderData(`id`)
 
 
-```
+```jsx
 // Router
 createBrowserRouter([
   {
@@ -54,7 +54,7 @@ function Team() {
 - Router 를 통한 Component 랜더링 시에 발생하는 에러에 대한 랜더링 Component 를 설정한다.
 - 해당 errorElement 를 부여한 모든 자식 router 에 대해 적용된다.
 
-```
+```jsx
 createBrowserRouter([
   {
     element: <Teams />,
@@ -77,7 +77,7 @@ createBrowserRouter([
 #### useNavigation
 - 현재 react router dom 을 이용하여 loader / action 수행시에 상태 및 반환 데이터를 받을 수 있게 해준다.
 
-```
+```javascript
 const {state, location, formData, json, text, formAction, formMethod, formEncType} = useNavigation();
 ```
 

@@ -4,7 +4,7 @@ React 는 상태가 변경되면 해당 컴포넌트 및 하위 컴포넌트에 
 
 1. memo()
 
-```
+```javascript
 function App(props) {}
 
 export default React.memo(App);
@@ -14,7 +14,7 @@ export default React.memo(App);
 
 2. useCallback()
 
-```
+```javascript
 function App() {
     const handleClick = useCallback(() => {}, []);
 }
@@ -26,7 +26,7 @@ function App() {
 
 
 3. useMemo()
-```
+```javascript
 function App(props) {
     const sortList = useMemo(() => {
         return props.sort((a,b) => a-b);
