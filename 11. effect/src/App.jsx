@@ -64,11 +64,13 @@ function App() {
     );
     setIsModal(false);
 
-    const savedPlace = localStorage.getItem("saved") || [];
+    const savedPlace = localStorage.getItem("saved");
     localStorage.setItem(
       "saved",
       JSON.stringify(
-        JSON.parse(savedPlace).filter((id) => id !== selectedPlace.current)
+        (JSON.parse(savedPlace) || []).filter(
+          (id) => id !== selectedPlace.current
+        )
       )
     );
   }
