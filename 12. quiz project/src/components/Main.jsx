@@ -12,7 +12,12 @@ export default function Main() {
       {userAnswers.length === QUESTIONS.length ? (
         <Summary userAnswers={userAnswers} />
       ) : (
-        <Quiz userAnswers={userAnswers} setUserAnswers={setUserAnswers} />
+        <Quiz
+          key={userAnswers.length}
+          questionIndex={userAnswers.length}
+          userAnswers={userAnswers}
+          setUserAnswers={setUserAnswers}
+        />
       )}
     </main>
   );

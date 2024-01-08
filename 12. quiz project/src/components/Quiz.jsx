@@ -1,49 +1,77 @@
-import { useCallback, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import QUESTIONS from "../questions.js";
 import Progress from "./Progress.jsx";
 
-const TIMER = 2;
+const TIMER = 6;
 
-export default function Quiz({ userAnswers, setUserAnswers }) {
+export default function Quiz({ userAnswers, setUserAnswers, questionIndex }) {
+  const answers = useRef();
+  const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [isCorrect, setIsCorrect] = useState(null);
   useEffect(() => {
-    console.log("Timer Start");
+    if (answers.current === undefined) return;
     const timeout = setTimeout(() => {
       setUserAnswers((prev) => {
-        return [...prev, null];
+        return [...prev, selectedAnswer];
       });
     }, TIMER * 1000);
 
     return () => {
-      console.log("Timer End");
       clearTimeout(timeout);
     };
-  }, [userAnswers]);
+  }, [selectedAnswer, answers.current]);
 
   const quiz = QUESTIONS[userAnswers.length];
   const question = quiz.text;
-  const answers = quiz.answers.toSorted(() => Math.random() - 0.5);
+  if (answers.current === undefined)
+    answers.current = quiz.answers.toSorted(() => Math.random() - 0.5);
 
-  const handleAnswerButtonEvent = useCallback(function (answer) {
-    setUserAnswers((prev) => {
-      return [...prev, answer];
-    });
-  }, []);
+  function handleAnswerButtonEvent(answer) {
+    setSelectedAnswer(answer);
 
-  // TODO 답변 선택시 다른 답변 선택 금지
-  // TODO 답변 선택시 정답 여부
-  // TODO 답변 선택시 1초후 종료
+    setTimeout(() => {
+      setIsCorrect(answer === quiz.answers[0]);
+    }, 1000);
+
+    setTimeout(() => {
+      setUserAnswers((prev) => {
+        return [...prev, answer];
+      });
+    }, 2000);
+  }
+
+  let time = TIMER * 1000;
+  if (isCorrect !== null) time = 1000;
 
   return (
     <div id="quiz">
       <div id="question">
-        <Progress max={TIMER * 1000} index={userAnswers.length} />
+        <Progress
+          max={time}
+          answered={selectedAnswer !== null}
+          key={isCorrect}
+        />
         <h2>{question}</h2>
         <ul id="answers">
-          {answers.map((answer) => {
+          {answers.current.map((answer) => {
+            let className = "";
+
+            if (selectedAnswer !== null && selectedAnswer === answer) {
+              className += " selected";
+              if (isCorrect !== null)
+                className += isCorrect ? " correct" : " wrong";
+            }
+
             return (
               <li className="answer" key={answer}>
-                <button onClick={() => handleAnswerButtonEvent(answer)}>
+                <button
+                  onClick={() => handleAnswerButtonEvent(answer)}
+                  className={className}
+                  disabled={
+                    selectedAnswer !== null && selectedAnswer !== answer
+                  }
+                >
                   {answer}
                 </button>
               </li>

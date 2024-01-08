@@ -7,10 +7,10 @@ export default function Summary({ userAnswers }) {
   const correctly = userAnswers.filter(
     (answers, index) => answers === QUESTIONS[index].answers[0]
   ).length;
-  const inCorrectly = userAnswers.filter(
-    (answers, index) =>
-      answers !== null && answers !== QUESTIONS[index].answers[0]
-  ).length;
+
+  const skippedPercent = Math.round((+skipped / QUESTIONS.length) * 100);
+  const correctPercent = Math.round((+correctly / QUESTIONS.length) * 100);
+  const incorrectPercent = 100 - skippedPercent - correctPercent;
 
   return (
     <div id="summary">
@@ -18,21 +18,15 @@ export default function Summary({ userAnswers }) {
       <h2>Quiz Complete!</h2>
       <div id="summary-stats">
         <p>
-          <span className="number">
-            {Math.round((+skipped / QUESTIONS.length) * 100)}%
-          </span>
+          <span className="number">{skippedPercent}%</span>
           <span className="text">skipped</span>
         </p>
         <p>
-          <span className="number">
-            {Math.round((+correctly / QUESTIONS.length) * 100)}%
-          </span>
+          <span className="number">{correctPercent}%</span>
           <span className="text">answered correctly</span>
         </p>
         <p>
-          <span className="number">
-            {Math.round((+inCorrectly / QUESTIONS.length) * 100)}%
-          </span>
+          <span className="number">{incorrectPercent}%</span>
           <span className="text">answered incorrectly</span>
         </p>
       </div>
