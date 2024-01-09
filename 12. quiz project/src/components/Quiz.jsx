@@ -5,7 +5,7 @@ import Progress from "./Progress.jsx";
 
 const TIMER = 6;
 
-export default function Quiz({ userAnswers, setUserAnswers, questionIndex }) {
+export default function Quiz({ userAnswers, setUserAnswers }) {
   const answers = useRef();
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [isCorrect, setIsCorrect] = useState(null);

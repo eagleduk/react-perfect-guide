@@ -14,7 +14,6 @@ export default function Main() {
       ) : (
         <Quiz
           key={userAnswers.length}
-          questionIndex={userAnswers.length}
           userAnswers={userAnswers}
           setUserAnswers={setUserAnswers}
         />
