@@ -29,7 +29,7 @@ function App() {
 ```javascript
 function App(props) {
     const sortList = useMemo(() => {
-        return props.sort((a,b) => a-b);
+        return props.item.sort((a,b) => a-b);
     }, [props.item])
 }
 ```
@@ -39,4 +39,12 @@ function App(props) {
     - 변경되지 않는 값이나 자주 변경되지 않는 값에 대한 수식 또는 로직 수행하는 함수에 사용하기 최적
 
 
+## key
 
+- 반복되는 형제간의 컴포넌트에 대한 구분을 정해주는 `React` 고유의 속성값.
+- 반복되는 형제간의 컴포넌트의 추가, 수정, 삭제에 대하여 `React` 가 정확한 컴포넌트를 추론할 수 있게 도와준다.
+- 잘 변경되지 않지만 데이터 고유의 값을 사용하여 중복을 피하는 값을 사용하는게 일반적이다.
+- 반복되지 않거나 단일 컴포넌트에 `key` 속성값을 부여하면, 해당 값을 변경 시켜 줌으로써 컴포넌트를 초기화 시킬 수 있다.
+
+## (millionJS)(https://million.dev/)
+- `React` **70%** 빠르게 해준다는 library
