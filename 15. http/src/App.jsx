@@ -5,30 +5,35 @@ import Modal from "./components/Modal.jsx";
 import DeleteConfirmation from "./components/DeleteConfirmation.jsx";
 import logoImg from "./assets/logo.png";
 import AvailablePlaces from "./components/AvailablePlaces.jsx";
-
-async function updatePlace(result) {
-  const response = await fetch("http://localhost:3000/user-places", {
-    method: "PUT",
-    body: JSON.stringify({ places: result }),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  const data = await response.json();
-  return data;
-}
+import { getUserPlaces, updateUserPlace } from "./http.js";
+import Error from "./Error.jsx";
 
 function App() {
   const selectedPlace = useRef();
 
+  const [isLoading, setIsLoading] = useState(false);
   const [userPlaces, setUserPlaces] = useState([]);
+  const [fetchError, setFetchError] = useState(null);
+
+  const [error, setError] = useState(null);
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:3000/user-places")
-      .then((response) => response.json())
-      .then((data) => setUserPlaces(data.places));
+    async function getPlaces() {
+      setIsLoading(true);
+      setFetchError(null);
+      try {
+        const places = await getUserPlaces();
+        setUserPlaces(places);
+        setIsLoading(false);
+      } catch (error) {
+        setIsLoading(false);
+        setFetchError({ message: error.message });
+      }
+    }
+
+    getPlaces();
   }, []);
 
   function handleStartRemovePlace(place) {
@@ -40,7 +45,7 @@ function App() {
     setModalIsOpen(false);
   }
 
-  function handleSelectPlace(selectedPlace) {
+  async function handleSelectPlace(selectedPlace) {
     setUserPlaces((prevPickedPlaces) => {
       if (!prevPickedPlaces) {
         prevPickedPlaces = [];
@@ -48,27 +53,47 @@ function App() {
       if (prevPickedPlaces.some((place) => place.id === selectedPlace.id)) {
         return prevPickedPlaces;
       }
-      const result = [selectedPlace, ...prevPickedPlaces];
-
-      updatePlace(result);
-      return result;
+      return [selectedPlace, ...prevPickedPlaces];
     });
+
+    try {
+      await updateUserPlace([selectedPlace, ...userPlaces]);
+    } catch (error) {
+      setError({ message: error.message });
+      setUserPlaces(userPlaces);
+    }
   }
 
   const handleRemovePlace = useCallback(async function handleRemovePlace() {
     setUserPlaces((prevPickedPlaces) => {
-      const result = prevPickedPlaces.filter(
+      return prevPickedPlaces.filter(
         (place) => place.id !== selectedPlace.current.id
       );
-      updatePlace(result);
-      return result;
     });
+
+    try {
+      await updateUserPlace(
+        userPlaces.filter((place) => place.id !== selectedPlace.current.id)
+      );
+    } catch (error) {
+      setError({ message: error.message });
+      setUserPlaces(userPlaces);
+    }
 
     setModalIsOpen(false);
   }, []);
 
   return (
     <>
+      <Modal open={error} onClose={() => setError(null)}>
+        {error && (
+          <Error
+            title="title"
+            message={error.message}
+            onConfirm={() => setError(null)}
+          />
+        )}
+      </Modal>
       <Modal open={modalIsOpen} onClose={handleStopRemovePlace}>
         <DeleteConfirmation
           onCancel={handleStopRemovePlace}
@@ -85,12 +110,16 @@ function App() {
         </p>
       </header>
       <main>
-        <Places
-          title="I'd like to visit ..."
-          fallbackText="Select the places you would like to visit below."
-          places={userPlaces}
-          onSelectPlace={handleStartRemovePlace}
-        />
+        {fetchError && <Error title="Error" message={fetchError.message} />}
+        {!fetchError && (
+          <Places
+            title="I'd like to visit ..."
+            fallbackText="Select the places you would like to visit below."
+            places={userPlaces}
+            isLoading={isLoading}
+            onSelectPlace={handleStartRemovePlace}
+          />
+        )}
 
         <AvailablePlaces onSelectPlace={handleSelectPlace} />
       </main>
