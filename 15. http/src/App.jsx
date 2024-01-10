@@ -1,10 +1,22 @@
-import { useRef, useState, useCallback } from 'react';
+import { useRef, useState, useCallback, useEffect } from "react";
 
-import Places from './components/Places.jsx';
-import Modal from './components/Modal.jsx';
-import DeleteConfirmation from './components/DeleteConfirmation.jsx';
-import logoImg from './assets/logo.png';
-import AvailablePlaces from './components/AvailablePlaces.jsx';
+import Places from "./components/Places.jsx";
+import Modal from "./components/Modal.jsx";
+import DeleteConfirmation from "./components/DeleteConfirmation.jsx";
+import logoImg from "./assets/logo.png";
+import AvailablePlaces from "./components/AvailablePlaces.jsx";
+
+async function updatePlace(result) {
+  const response = await fetch("http://localhost:3000/user-places", {
+    method: "PUT",
+    body: JSON.stringify({ places: result }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await response.json();
+  return data;
+}
 
 function App() {
   const selectedPlace = useRef();
@@ -12,6 +24,12 @@ function App() {
   const [userPlaces, setUserPlaces] = useState([]);
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  useEffect(() => {
+    fetch("http://localhost:3000/user-places")
+      .then((response) => response.json())
+      .then((data) => setUserPlaces(data.places));
+  }, []);
 
   function handleStartRemovePlace(place) {
     setModalIsOpen(true);
@@ -30,14 +48,21 @@ function App() {
       if (prevPickedPlaces.some((place) => place.id === selectedPlace.id)) {
         return prevPickedPlaces;
       }
-      return [selectedPlace, ...prevPickedPlaces];
+      const result = [selectedPlace, ...prevPickedPlaces];
+
+      updatePlace(result);
+      return result;
     });
   }
 
   const handleRemovePlace = useCallback(async function handleRemovePlace() {
-    setUserPlaces((prevPickedPlaces) =>
-      prevPickedPlaces.filter((place) => place.id !== selectedPlace.current.id)
-    );
+    setUserPlaces((prevPickedPlaces) => {
+      const result = prevPickedPlaces.filter(
+        (place) => place.id !== selectedPlace.current.id
+      );
+      updatePlace(result);
+      return result;
+    });
 
     setModalIsOpen(false);
   }, []);
