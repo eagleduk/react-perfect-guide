@@ -6,13 +6,29 @@ export default function Login() {
     password: "",
   });
 
-  const emailIsInvalid =
-    inputValues.email.trim() !== "" && !inputValues.email.includes("@");
+  const [blurState, setBlurState] = useState({
+    email: false,
+    password: false,
+  });
+
+  const emailIsInvalid = blurState.email && !inputValues.email.includes("@");
 
   const handleInputEvent = (identifier, value) => {
     setInputValue((prev) => ({
       ...prev,
       [identifier]: value,
+    }));
+
+    setBlurState((prev) => ({
+      ...prev,
+      [identifier]: false,
+    }));
+  };
+
+  const handleBlurEvent = (identifier) => {
+    setBlurState((prev) => ({
+      ...prev,
+      [identifier]: true,
     }));
   };
 
@@ -33,6 +49,7 @@ export default function Login() {
             name="email"
             value={inputValues.email}
             onChange={(event) => handleInputEvent("email", event.target.value)}
+            onBlur={(event) => handleBlurEvent("email")}
           />
           {emailIsInvalid && (
             <div className="control-error">Please input valid email.</div>
