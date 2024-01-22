@@ -1,42 +1,25 @@
-import { useState } from "react";
 import Input from "./Input";
+import useInput from "../hook/useInput";
+import { hasMinLength, isEmail } from "../util/validation";
 
 export default function Login() {
-  const [inputValues, setInputValue] = useState({
-    email: "",
-    password: "",
-  });
+  const {
+    value: email,
+    inputEvent: handleEmailInputEvent,
+    blurEvent: handleEmailBlurEvent,
+    invalid: emailInvalid,
+  } = useInput("", isEmail);
 
-  const [blurState, setBlurState] = useState({
-    email: false,
-    password: false,
-  });
-  const emailIsInvalid = blurState.email && !inputValues.email.includes("@");
-  const passwordIsInvalid =
-    blurState.password && inputValues.password.trim().length < 6;
-
-  const handleInputEvent = (identifier, value) => {
-    setInputValue((prev) => ({
-      ...prev,
-      [identifier]: value,
-    }));
-
-    setBlurState((prev) => ({
-      ...prev,
-      [identifier]: false,
-    }));
-  };
-
-  const handleBlurEvent = (identifier) => {
-    setBlurState((prev) => ({
-      ...prev,
-      [identifier]: true,
-    }));
-  };
+  const {
+    value: password,
+    inputEvent: handlePasswordInputEvent,
+    blurEvent: handlePasswordBlurEvent,
+    invalid: passwordInvalid,
+  } = useInput("", (value) => hasMinLength(value, 6));
 
   const handleSubmitEvent = (event) => {
     event.preventDefault();
-    console.log(inputValues);
+    console.log({ email, password });
   };
   return (
     <form onSubmit={handleSubmitEvent}>
@@ -48,10 +31,10 @@ export default function Login() {
           label="Email"
           type="email"
           name="email"
-          value={inputValues.email}
-          onChange={(event) => handleInputEvent("email", event.target.value)}
-          onBlur={() => handleBlurEvent("email")}
-          isInvalid={emailIsInvalid}
+          value={email}
+          onChange={handleEmailInputEvent}
+          onBlur={handleEmailBlurEvent}
+          isInvalid={emailInvalid}
         />
 
         <Input
@@ -59,10 +42,10 @@ export default function Login() {
           label="Password"
           type="password"
           name="password"
-          value={inputValues.password}
-          onChange={(event) => handleInputEvent("password", event.target.value)}
-          onBlur={() => handleBlurEvent("password")}
-          isInvalid={passwordIsInvalid}
+          value={password}
+          onChange={handlePasswordInputEvent}
+          onBlur={handlePasswordBlurEvent}
+          isInvalid={passwordInvalid}
         />
       </div>
 
