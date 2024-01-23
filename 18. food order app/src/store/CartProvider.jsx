@@ -9,11 +9,10 @@ const defaultValue = {
 export const CartContext = createContext(defaultValue);
 
 function reducer(state, action) {
-  console.log("action", action);
   if (action.type === "ADD") {
     const { id, name, price } = action.payload;
 
-    if (state[id] !== undefined) {
+    if (state.items[id] !== undefined) {
       return {
         items: {
           ...state.items,
@@ -23,22 +22,50 @@ function reducer(state, action) {
           },
         },
         count: state.count + 1,
-        price: state.price + price,
+        price: state.price + +price,
       };
     } else {
       return {
         items: {
           ...state.items,
           [id]: {
+            id,
             name,
             price,
             count: 1,
           },
         },
         count: state.count + 1,
-        price: state.price + price,
+        price: state.price + +price,
       };
     }
+  } else if (action.type === "REMOVE") {
+    if (state.count === 1) {
+      return defaultValue;
+    }
+
+    const { id, price } = action.payload;
+    if (state.items[id].count === 1) {
+      const temp = { ...state.items };
+      delete temp[id];
+      return {
+        items: temp,
+        count: state.count - 1,
+        price: state.price - +price,
+      };
+    }
+
+    return {
+      items: {
+        ...state.items,
+        [id]: {
+          ...state.items[id],
+          count: state.items[id].count - 1,
+        },
+      },
+      count: state.count - 1,
+      price: state.price - +price,
+    };
   }
   return state;
 }
