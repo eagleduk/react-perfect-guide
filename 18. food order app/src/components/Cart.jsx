@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { CartContext } from "../store/CartProvider";
 
-export default function Cart({ onClose }) {
+export default function Cart({ onModalType }) {
   const {
     cart: { items, price },
     dispatch,
@@ -42,10 +42,18 @@ export default function Cart({ onClose }) {
       </ul>
       <p className="cart-total">${price.toFixed(2)}</p>
       <div className="modal-actions">
-        <button className="text-button" type="button" onClick={onClose}>
+        <button
+          className="text-button"
+          type="button"
+          onClick={() => onModalType(null)}
+        >
           Close
         </button>
-        <button type="button" className="button">
+        <button
+          type="button"
+          className="button"
+          onClick={() => onModalType("checkout")}
+        >
           Go to Checkout
         </button>
       </div>

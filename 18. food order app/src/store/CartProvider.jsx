@@ -66,6 +66,8 @@ function reducer(state, action) {
       count: state.count - 1,
       price: state.price - +price,
     };
+  } else if (action.type === "initialize") {
+    return defaultValue;
   }
   return state;
 }
