@@ -10,6 +10,7 @@ export default function Modal({ title, children, onClose }) {
         className="modal"
         initial={{ translateY: "100px", opacity: 0 }}
         animate={{ translateY: "0px", opacity: 1 }}
+        exit={{ translateY: "100px", opacity: 0 }}
       >
         <h2>{title}</h2>
         {children}
