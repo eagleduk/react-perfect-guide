@@ -46,7 +46,9 @@ describe("Greeting Test Suite", () => {
     userEvent.click(button);
 
     // Assert
-    const target = screen.getByText("Nice to meet", { exact: false });
-    expect(target).not.toBeInTheDocument();
+    // const target = screen.getByText("Nice to meet", { exact: false });
+    // expect(target).not.toBeInTheDocument();
+    const target = screen.queryByText("Nice to meet", { exact: false });
+    expect(target).toBeNull();
   });
 });
