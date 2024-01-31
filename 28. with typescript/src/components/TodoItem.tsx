@@ -1,13 +1,7 @@
-import Todo from "../model/Todo";
 import classes from "./TodoItem.module.css";
 
-const TodoItem: React.FC<{item: Todo, onRemoveTodo: () => void}> = (props) => {
-
-    const handleListItemClickEvent = (i: number) => {
-        props.onRemoveTodo();
-    }
-    
-    return <li className={classes.item} onClick={props.onRemoveTodo}>{props.item.text}</li>
+const TodoItem: React.FC<{text: string, onRemoveTodo: () => void}> = (props) => {
+    return <li className={classes.item} onClick={props.onRemoveTodo}>{props.text}</li>
 }
 
 export default TodoItem;
