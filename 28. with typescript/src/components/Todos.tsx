@@ -7,6 +7,7 @@ import TodoItem from "./TodoItem";
 
 type TT = {
     items: Todo[];
+    onRemoveTodo: (i:number) => void;
 }
 
 type a = React.FC<TT>
@@ -14,7 +15,7 @@ type a = React.FC<TT>
 const Todos: a = (props) => {
     return <ul className={classes.todos}>
         {
-            props.items.map(item => <TodoItem key={item.id} text={item.text} />)
+            props.items.map(item => <TodoItem key={item.id} item={item} onRemoveTodo={props.onRemoveTodo} />)
         }
     </ul>
 }

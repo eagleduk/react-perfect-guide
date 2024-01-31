@@ -11,10 +11,14 @@ function App() {
     setItems(prev => [...prev, new Todo(t)])
   }
 
+  const handleRemoveTodoItemEvent = (i: number) => {
+    setItems(prev => prev.filter(item => item.id !== i));
+  }
+
   return (
     <div className="App">
       <NewTodo onAddTodo={handleAddTodoItemEvent} />
-      <Todos items={items}/>
+      <Todos items={items} onRemoveTodo={handleRemoveTodoItemEvent}/>
     </div>
   );
 }
