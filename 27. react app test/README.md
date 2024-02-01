@@ -5,22 +5,22 @@
 
 #### 그룹화
 
-```jsx
-describe('[그룹화명]', () => {
-    test('[테스트명]', () => {})
-    test('[테스트명]', () => {})
-})
-```
+    ```jsx
+    describe('[그룹화명]', () => {
+        test('[테스트명]', () => {})
+        test('[테스트명]', () => {})
+    })
+    ```
 
 >  `getByRole` 관련 Role Index => https://www.w3.org/TR/html-aria/#docconformance
 
 #### fetch testing
 - 테스트시 실제 데이터를 전송이 이루어지면 서버의 데이터가 변경될 우려가 있기 때문에 `Mock` 를 사용하여 임시 테스트를 진행한다.
 
-```javascript
-window.fetch = jest.fn();
-window.fetch.mockResolvedValueOnce(`[fetch return 형태]`);
-```
+    ```javascript
+    window.fetch = jest.fn();
+    window.fetch.mockResolvedValueOnce(`[fetch return 형태]`);
+    ```
 
 > 참조
 > [jest](https://jestjs.io/)
